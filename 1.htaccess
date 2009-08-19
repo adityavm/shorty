@@ -1,0 +1,5 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteBase /
+RewriteRule (.+)$ "?short=$1" [L,R=301]
