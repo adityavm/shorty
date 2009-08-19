@@ -1,3 +1,1 @@
-h2. Note
-
-Rename <code>1.htaccess</code> to <code>.htaccess</code> to make the redirects work.
+Note: Rename '1.htaccess' to '.htaccess' to make the redirects work.
