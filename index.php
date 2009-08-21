@@ -11,5 +11,5 @@ mysql_select_db('DB_NAME');
 	$row = mysql_query($row);
 	$url = urldecode(mysql_result($row, 0, "long"));
 
-header("Location:$url");
+header("Location:$url", true, 301);
 ?>
