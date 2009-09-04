@@ -40,29 +40,30 @@
 	mysql_select_db('DB_NAME');
 	
 	# check if URL already exists
-	$url_exists = mysql_query("SELECT `short` FROM `mapping` WHERE `long` LIKE '". strip_tags(urlencode($_GET['url'])) ."'");
+	$url_exists = mysql_query("SELECT `short` FROM `mapping` WHERE `long` = '". strip_tags(urlencode($_GET['url'])) ."'");
 	if(mysql_num_rows($url_exists) > 0){
 		$n_row = mysql_result($url_exists, 0, 'short');
 	} else {
-		if($_GET['vanity'] == ""):
-			$row = "SELECT count(short) FROM `mapping` WHERE `short` REGEXP \"[[:digit:]]+\"";
+		if($_GET['vanity'] == "{3}"):
+			$row = "SELECT count(short) FROM `mapping` WHERE `vanity` != \"1\"";
 			$row = mysql_query($row);
 			$rows = mysql_result($row, 0, "count(short)");
-			$n_row = dechex($rows+1);
+			$n_row = base_convert($rows+1, 10, 36);
+			$vanity = 0;
 		else:
 			$n_row = $_GET['vanity'];
+			$vanity = 1;
 		endif;
-		
-		$ins = "INSERT INTO `mapping` (`short`, `long`) VALUES ('$n_row', '". urlencode(preg_replace("/\/{2,}$/", "/", strip_tags($_GET['url'])))."');";
-			mysql_query($ins);
+		$ins = "INSERT INTO `mapping` (`short`, `long`, `vanity`) VALUES ('$n_row', '". urlencode(preg_replace("/\/{2,}$/", "/", strip_tags($_GET['url'])))."', '$vanity');";
+		mysql_query($ins);
 	}
 	
-	$url = "http:/DOMAIN_NAME/$n_row";
+	$url = "http://⌘am.ws/$n_row";
 ?>
 <title><?=$url?> — Short URL</title>
 </head>
 <body>
-<a href="javascript:history.back()">Go back</a> &nbsp; <input type='text' value='<?=$url?>' id='short_url'/> &mdash; <?=$_GET['url']?>
+<a href="javascript:history.back()" accesskey='1'>&laquo; Go back</a> &nbsp; | &nbsp; <input type='text' value='<?=$url?>' id='short_url'/> &mdash; <?=$_GET['url']?>
 <script type="text/javascript" charset="utf-8">
 	document.getElementById('short_url').select()
 </script>
