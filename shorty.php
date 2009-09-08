@@ -44,7 +44,7 @@
 	if(mysql_num_rows($url_exists) > 0){
 		$n_row = mysql_result($url_exists, 0, 'short');
 	} else {
-		if($_GET['vanity'] == "{3}"):
+		if($_GET['vanity'] == ""):
 			$row = "SELECT count(short) FROM `mapping` WHERE `vanity` != \"1\"";
 			$row = mysql_query($row);
 			$rows = mysql_result($row, 0, "count(short)");
@@ -58,7 +58,7 @@
 		mysql_query($ins);
 	}
 	
-	$url = "http://⌘am.ws/$n_row";
+	$url = "http://SHORT_DOMAIN/$n_row";
 ?>
 <title><?=$url?> — Short URL</title>
 </head>
